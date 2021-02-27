@@ -1,12 +1,12 @@
 package kma.topic2.junit.integration;
 
-import kma.topic2.junit.UserService;
 import kma.topic2.junit.exceptions.ConstraintViolationException;
 import kma.topic2.junit.exceptions.LoginExistsException;
 import kma.topic2.junit.exceptions.UserNotFoundException;
 import kma.topic2.junit.model.NewUser;
 import kma.topic2.junit.model.User;
 import kma.topic2.junit.repository.UserRepository;
+import kma.topic2.junit.service.UserService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
