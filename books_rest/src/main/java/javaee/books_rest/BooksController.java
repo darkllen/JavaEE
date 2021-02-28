@@ -4,12 +4,13 @@ import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class BooksController {
@@ -25,6 +26,12 @@ public class BooksController {
     public String index(Model model){
         model.addAttribute("books", books_storage);
         return "all_books";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/get_books"}, method = RequestMethod.POST)
+    public List<Book> get_books(@RequestBody final FindPattern find){
+        return books_storage.stream().filter(find::filter).collect(Collectors.toList());
     }
 
     /**
@@ -45,26 +52,5 @@ public class BooksController {
     public String add_book(@ModelAttribute("book") Book book){
         if (book.isValid()) books_storage.add(book);
         return "redirect:/all_books";
-    }
-
-    @RequiredArgsConstructor
-    @Getter
-    @Setter
-    @ToString
-    @NotNull
-    // so in collection no books with same isbn are possible
-    @EqualsAndHashCode(of = {"isbn"})
-    public class Book {
-        private String book_name;
-        private String isbn;
-        private String author;
-
-        /**
-         *
-         * @return true if there is no empty fields in book, otherwise false
-         */
-        public boolean isValid(){
-            return !book_name.equals("") & !isbn.equals("") & !author.equals("");
-        }
     }
 }

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -10,19 +12,65 @@
     <a href="/add_book_form">
         <button type="button" class="btn btn-primary btn-block">Add new book</button>
     </a>
+
+    <div class="container align-items-center" align="center">
+            <form class="align-items-center" align="center" id="find">
+                <input type="text" id="find_field" name="find_field" placeholder="Title | ISBN">
+                <button type="submit" class="c-btn-blue c-btn-circle c-btn-uppercase">Find</button>
+            </form>
+    </div>
+
+
     <table class="text-center table table-bordered table-responsive-md">
         <thead>
         <th class="text-center" scope="col">name</th>
         <th class="text-center" scope="col">isbn</th>
         <th class="text-center" scope="col">author</th>
         </thead>
-        <tbody>
-        <tr th:each="book: ${books}">
-            <td th:text="${book.book_name}"></td>
-            <td th:text="${book.isbn}"></td>
-            <td th:text="${book.author}"></td>
-        </tr>
+        <tbody id="books">
         </tbody>
     </table>
+<script>
+    window.onload = function () {
+        show_books_by_filter(JSON.stringify({find:''}))
+    }
+
+    function get_book_row_template(dict){
+        return `<tr>
+                    <td> ${dict['book_name']}</td>
+                    <td> ${dict['isbn']} </td>
+                    <td> ${dict['author']} </td>
+                 </tr>`
+    }
+
+    function show_books_by_filter(filter_dict) {
+        $.ajax({
+            url:'/get_books',
+            type: 'POST',
+            dataType: 'json',
+            data: filter_dict,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json')
+            },
+            success: function (response) {
+                let books = $('#books')
+                books.empty()
+                for (book of response){
+                    books.append(get_book_row_template(book))
+                }
+            }
+        })
+    }
+
+    $(function () {
+        $('#find').submit(function (e) {
+            e.preventDefault();
+            let data = JSON.stringify({
+                find: $(this).find('[name=find_field]').val()
+            })
+            show_books_by_filter(data);
+        })
+    })
+</script>
 </body>
 </html>
