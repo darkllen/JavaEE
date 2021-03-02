@@ -3,7 +3,7 @@ package javaee.books_rest.dto;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
