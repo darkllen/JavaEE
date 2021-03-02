@@ -1,4 +1,4 @@
-package javaee.books_rest;
+package javaee.books_rest.dto;
 
 import lombok.*;
 import org.jetbrains.annotations.NotNull;

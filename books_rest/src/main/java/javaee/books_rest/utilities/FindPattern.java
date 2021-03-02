@@ -1,5 +1,6 @@
-package javaee.books_rest;
+package javaee.books_rest.utilities;
 
+import javaee.books_rest.dto.Book;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

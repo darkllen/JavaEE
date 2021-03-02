@@ -1,35 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <a href="/add_book_form">
-        <button type="button" class="btn btn-primary btn-block">Add new book</button>
-    </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <div class="container align-items-center" align="center">
+                    <form class="align-items-center" align="center" id="find">
+                        <input type="text" id="find_field" name="find_field" placeholder="Title | ISBN">
+                        <button type="submit" class="c-btn-blue c-btn-circle c-btn-uppercase">Find</button>
+                    </form>
+                </div>
+                <table class="text-center table table-bordered table-responsive-md">
+                    <thead>
+                    <th class="text-center" scope="col">name</th>
+                    <th class="text-center" scope="col">isbn</th>
+                    <th class="text-center" scope="col">author</th>
+                    </thead>
+                    <tbody id="books">
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-3 border-left border-dark align-items-center" align="center">
+                <form id="add_book">
+                    <div class="form-group">
+                        <label for="book_name">Book name</label>
+                        <input type="text" class="form-control" id="book_name"  name="book_name" placeholder="Enter book name">
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN</label>
+                        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN">
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Author</label>
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+                    </div>
+                    <button type="submit" class="c-btn-blue c-btn-circle c-btn-uppercase">Submit</button>
+                </form>
+            </div>
+        </div>
 
-    <div class="container align-items-center" align="center">
-            <form class="align-items-center" align="center" id="find">
-                <input type="text" id="find_field" name="find_field" placeholder="Title | ISBN">
-                <button type="submit" class="c-btn-blue c-btn-circle c-btn-uppercase">Find</button>
-            </form>
+
     </div>
 
-
-    <table class="text-center table table-bordered table-responsive-md">
-        <thead>
-        <th class="text-center" scope="col">name</th>
-        <th class="text-center" scope="col">isbn</th>
-        <th class="text-center" scope="col">author</th>
-        </thead>
-        <tbody id="books">
-        </tbody>
-    </table>
 <script>
     window.onload = function () {
         show_books_by_filter(JSON.stringify({find:''}))
@@ -69,6 +90,35 @@
                 find: $(this).find('[name=find_field]').val()
             })
             show_books_by_filter(data);
+        })
+    })
+
+    $(function () {
+        $('#add_book').submit(function (e) {
+            e.preventDefault();
+            let data = JSON.stringify({
+                book_name: $(this).find('[name=book_name]').val(),
+                isbn: $(this).find('[name=isbn]').val(),
+                author: $(this).find('[name=author]').val()
+            })
+            $.ajax({
+                url:'/add_book',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Content-Type', 'application/json')
+                },
+                success: function (response, status, xhr) {
+                    if (xhr.status===201){
+                        $('#find').find('[name=find_field]').val('')
+                        show_books_by_filter(JSON.stringify({find:''}))
+                    } else {
+                        alert("book wasn't created");
+                    }
+
+                }
+            })
         })
     })
 </script>

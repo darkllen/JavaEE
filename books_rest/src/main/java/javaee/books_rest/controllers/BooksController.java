@@ -1,12 +1,13 @@
-package javaee.books_rest;
+package javaee.books_rest.controllers;
 
-import lombok.*;
-import org.jetbrains.annotations.NotNull;
+import javaee.books_rest.utilities.FindPattern;
+import javaee.books_rest.dto.Book;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,8 +50,10 @@ public class BooksController {
      * @return redirect to start page
      */
     @RequestMapping(value = {"/add_book"}, method = RequestMethod.POST)
-    public String add_book(@ModelAttribute("book") Book book){
-        if (book.isValid()) books_storage.add(book);
-        return "redirect:/all_books";
+    public ResponseEntity<Book> add_book(@RequestBody final Book book){
+        if (book.isValid() && !books_storage.contains(book)) {
+            books_storage.add(book);
+            return ResponseEntity.status(HttpStatus.CREATED).body(book);
+        } else  return ResponseEntity.status(HttpStatus.OK).body(book);
     }
 }
