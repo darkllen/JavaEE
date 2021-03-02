@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
+//for now Rest controller and Web controller are in the same class
+//It will bi fixed when DB appear in project
 public class BooksController {
     // Set is used as collection with purpose have no duplicates
     Set<Book> books_storage = new HashSet<>();
@@ -29,6 +31,11 @@ public class BooksController {
         return "all_books";
     }
 
+    /**
+     *
+     * @param find books by pattern
+     * @return List of filtered books
+     */
     @ResponseBody
     @RequestMapping(value = {"/get_books"}, method = RequestMethod.POST)
     public List<Book> get_books(@RequestBody final FindPattern find){

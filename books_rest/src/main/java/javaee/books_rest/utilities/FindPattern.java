@@ -11,6 +11,10 @@ import lombok.ToString;
 public class FindPattern{
     private String find;
 
+    /**
+     * @param book to filter
+     * @return true if book is valid for this patter otherwise false
+     */
     public boolean filter(Book book){
         return book.getIsbn().contains(find) || book.getBook_name().contains(find);
     }
