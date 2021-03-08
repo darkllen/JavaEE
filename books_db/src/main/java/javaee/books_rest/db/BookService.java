@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,13 +31,9 @@ public class BookService {
         return entityManager.find(Book.class, isbn);
     }
 
-
-
-//    @Transactional
-//    public List<Book> findBookByPattern(FindPattern pattern) {
-//        return entityManager.createQuery("SELECT u FROM Book u WHERE u.isbn LIKE :query OR u.lastName LIKE :query", UserEntity.class)
-//                .setParameter("query", '%' + searchText + '%')
-//                .getResultList();
-//    }
+    @Transactional
+    public List<Book> findBookByPattern(FindPattern pattern) {
+        return findAllBooks().stream().filter(pattern::filter).collect(Collectors.toList());
+    }
 
 }

@@ -15,7 +15,9 @@
             <div class="col-9">
                 <div class="container align-items-center" align="center">
                     <form class="align-items-center" align="center" id="find">
-                        <input type="text" id="find_field" name="find_field" placeholder="Title | ISBN">
+                        <input type="text" id="find_title" name="find_title" placeholder="Title">
+                        <input type="text" id="find_isbn" name="find_isbn" placeholder="ISBN">
+                        <input type="text" id="find_author" name="find_author" placeholder="Author">
                         <button type="submit" class="c-btn-blue c-btn-circle c-btn-uppercase">Find</button>
                     </form>
                 </div>
@@ -53,7 +55,7 @@
 
 <script>
     window.onload = function () {
-        show_books_by_filter(JSON.stringify({find:''}))
+        show_books_by_filter(JSON.stringify({find_isbn:'', find_author:'', find_title:''}))
     }
 
     function get_book_row_template(dict){
@@ -87,7 +89,9 @@
         $('#find').submit(function (e) {
             e.preventDefault();
             let data = JSON.stringify({
-                find: $(this).find('[name=find_field]').val()
+                find_isbn: $(this).find('[name=find_isbn]').val(),
+                find_author: $(this).find('[name=find_author]').val(),
+                find_title: $(this).find('[name=find_title]').val()
             })
             show_books_by_filter(data);
         })
@@ -111,8 +115,10 @@
                 },
                 success: function (response, status, xhr) {
                     if (xhr.status===201){
-                        $('#find').find('[name=find_field]').val('')
-                        show_books_by_filter(JSON.stringify({find:''}))
+                        $('#find').find('[name=find_isbn]').val('')
+                        $('#find').find('[name=find_author]').val('')
+                        $('#find').find('[name=find_title]').val('')
+                        show_books_by_filter(JSON.stringify({find_isbn:'', find_author:'', find_title:''}))
                     } else {
                         alert("book wasn't created");
                     }

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 //for now Rest controller and Web controller are in the same class
@@ -46,7 +45,7 @@ public class BooksController {
     @ResponseBody
     @RequestMapping(value = {"/get_books"}, method = RequestMethod.POST)
     public List<Book> get_books(@RequestBody final FindPattern find){
-        return service.findAllBooks().stream().filter(find::filter).collect(Collectors.toList());
+        return service.findBookByPattern(find);
     }
 
     /**
