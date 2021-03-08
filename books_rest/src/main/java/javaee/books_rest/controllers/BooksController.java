@@ -5,7 +5,6 @@ import javaee.books_rest.dto.Book;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -22,12 +21,10 @@ public class BooksController {
 
     /**
      * main page with table of all books
-     * @param model
-     * @return template with books list
+     * @return books main page
      */
     @RequestMapping(value = {"/", "all_books"}, method = RequestMethod.GET)
-    public String index(Model model){
-        model.addAttribute("books", books_storage);
+    public String index(){
         return "all_books";
     }
 
@@ -40,15 +37,6 @@ public class BooksController {
     @RequestMapping(value = {"/get_books"}, method = RequestMethod.POST)
     public List<Book> get_books(@RequestBody final FindPattern find){
         return books_storage.stream().filter(find::filter).collect(Collectors.toList());
-    }
-
-    /**
-     * just return html page
-     * @return page with form to add book
-     */
-    @RequestMapping(value = {"/add_book_form"}, method = RequestMethod.GET)
-    public String redirect_to_form(){
-        return "add_book";
     }
 
     /**
