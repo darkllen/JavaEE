@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,19 @@ public class BooksController {
     @RequestMapping(value = {"/", "all_books"}, method = RequestMethod.GET)
     public String index(){
         return "all_books";
+    }
+
+
+    @RequestMapping(value = "/book/{isbn}", method = RequestMethod.GET)
+    public String bookPage(Model model, @PathVariable String isbn){
+        Book book = service.findByIsbn(isbn);
+        if (book!=null){
+            model.addAttribute("book", book);
+            return "book";
+        } else {
+            model.addAttribute("error", "No book with such isbn");
+            return "error";
+        }
     }
 
     /**
