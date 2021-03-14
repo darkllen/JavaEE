@@ -1,1 +1,4 @@
-{"find": "t"}
+{"find_isbn": "i",
+  "find_author": "",
+  "find_title": ""
+}
