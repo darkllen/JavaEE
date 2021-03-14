@@ -13,18 +13,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-//for now Rest controller and Web controller are in the same class
-//It will bi fixed when DB appear in project
 public class BooksController {
+    //storage for books
     @Autowired
     private BookService service;
 
+    /**
+     *
+     * @return main page
+     */
     @RequestMapping(value = {"/", "all_books"}, method = RequestMethod.GET)
     public String index(){
         return "all_books";
     }
 
-
+    /**
+     *
+     * @param model will store book to show
+     * @param isbn of book to show
+     * @return templated page of 1 book
+     */
     @RequestMapping(value = "/book/{isbn}", method = RequestMethod.GET)
     public String bookPage(Model model, @PathVariable String isbn){
         Book book = service.findByIsbn(isbn);
