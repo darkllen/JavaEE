@@ -30,6 +30,8 @@
                     <tbody id="books">
                     </tbody>
                 </table>
+                <nav id="pagination">
+                </nav>
             </div>
             <div class="col-3 border-left border-dark align-items-center" align="center">
                 <form id="add_book">
@@ -60,7 +62,7 @@
 
     function get_book_row_template(dict){
         return `<tr>
-                    <td> ${dict['book_name']}</td>
+                    <td> ${dict['title']}</td>
                     <td> ${dict['isbn']} </td>
                     <td> ${dict['author']} </td>
                  </tr>`
@@ -77,10 +79,13 @@
             },
             success: function (response) {
                 let books = $('#books')
+                let pagination = $('#pagination')
                 books.empty()
+                pagination.empty()
                 for (book of response){
                     books.append(get_book_row_template(book))
                 }
+                pagination.append(get_pagination_bar(1,3))
             }
         })
     }
@@ -101,7 +106,7 @@
         $('#add_book').submit(function (e) {
             e.preventDefault();
             let data = JSON.stringify({
-                book_name: $(this).find('[name=book_name]').val(),
+                title: $(this).find('[name=book_name]').val(),
                 isbn: $(this).find('[name=isbn]').val(),
                 author: $(this).find('[name=author]').val()
             })

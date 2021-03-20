@@ -78,7 +78,7 @@ class BooksControllerIT {
                 .when().post("/add_book")
                 .then()
                 .statusCode(201)
-                .body("book_name", CoreMatchers.is(book.getBook_name()))
+                .body("title", CoreMatchers.is(book.getTitle()))
                 .body("isbn", CoreMatchers.is(book.getIsbn()))
                 .body("author", CoreMatchers.is(book.getAuthor()));
     }
@@ -98,7 +98,7 @@ class BooksControllerIT {
                 .when().post("/add_book")
                 .then()
                 .statusCode(200)
-                .body("book_name", CoreMatchers.is(book.getBook_name()))
+                .body("title", CoreMatchers.is(book.getTitle()))
                 .body("isbn", CoreMatchers.is(book.getIsbn()))
                 .body("author", CoreMatchers.is(book.getAuthor()));
     }
