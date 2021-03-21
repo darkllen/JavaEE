@@ -30,8 +30,6 @@
                     <tbody id="books">
                     </tbody>
                 </table>
-                <nav id="pagination">
-                </nav>
             </div>
             <div class="col-3 border-left border-dark align-items-center" align="center">
                 <form id="add_book">
@@ -79,13 +77,10 @@
             },
             success: function (response) {
                 let books = $('#books')
-                let pagination = $('#pagination')
                 books.empty()
-                pagination.empty()
                 for (book of response){
                     books.append(get_book_row_template(book))
                 }
-                pagination.append(get_pagination_bar(1,3))
             }
         })
     }
