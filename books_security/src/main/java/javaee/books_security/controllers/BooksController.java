@@ -3,6 +3,7 @@ package javaee.books_security.controllers;
 import javaee.books_security.db.BookService;
 import javaee.books_security.db.UserRepo;
 import javaee.books_security.db.UserService;
+import javaee.books_security.dto.PermissionEntity;
 import javaee.books_security.dto.User;
 import javaee.books_security.utilities.FindPattern;
 import javaee.books_security.dto.Book;
@@ -39,6 +40,20 @@ public class BooksController {
         return "all_books";
     }
 
+
+    @RequestMapping(value = { "registration"}, method = RequestMethod.GET)
+    public String registration(){
+        return "registration";
+    }
+
+    @RequestMapping(value = {"/register_user"}, method = RequestMethod.POST)
+    public String register_user(@ModelAttribute("user") User user){
+        if (userRepo.findByLogin(user.getLogin()).isEmpty()) {
+            userRepo.save(user);
+            return "redirect:/login";
+        } else
+        return "redirect:/registration";
+    }
 
 
     @RequestMapping(value = { "favourites"}, method = RequestMethod.GET)

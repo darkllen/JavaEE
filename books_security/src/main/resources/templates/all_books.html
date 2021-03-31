@@ -14,6 +14,7 @@
         <div class="row">
             <div class="col-1">
                 <a href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a>
+                <a href="/registration" th:unless="${#authorization.expression('isAuthenticated()')}">Registration</a>
                 <a href="/logout" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
                 <a href="/favourites" th:if="${#authorization.expression('isAuthenticated()')}">Favourites</a>
             </div>
