@@ -58,11 +58,12 @@ public class BooksController {
         Optional<User> user = userRepo.findByLogin(principal.getName());
         Optional<Book> book = service.findByIsbn(isbn);
         if (book.isPresent() && user.isPresent()){
-            user.get().getFavourite_books().add(book.get());
-            userRepo.save(user.get());
-            return "redirect:/favourites";
+            if (!user.get().getFavourite_books().contains(book.get())) {
+                user.get().getFavourite_books().add(book.get());
+                userRepo.save(user.get());
+            }
         }
-        return "redirect:/all_books";
+        return "redirect:/favourites";
     }
 
     @RequestMapping(value = "/remove_from_favourite/{isbn}")
@@ -73,10 +74,9 @@ public class BooksController {
             if (user.get().getFavourite_books().contains(book.get())){
                 user.get().getFavourite_books().remove(book.get());
                 userRepo.save(user.get());
-                return "redirect:/favourites";
             }
         }
-        return "redirect:/all_books";
+        return "redirect:/favourites";
     }
 
     /**

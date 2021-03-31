@@ -20,7 +20,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin", "/admin/**").hasAuthority(PermissionEntity.Permission.ADMIN.name())
+                .antMatchers("/favourites").authenticated()
+                .antMatchers("/add_to_favourite", "/add_to_favourite/**").authenticated()
+                .antMatchers("/remove_from_favourite", "/remove_from_favourite/**").authenticated()
                 .antMatchers("/add_book").hasAuthority(PermissionEntity.Permission.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
