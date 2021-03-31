@@ -1,4 +1,4 @@
-package javaee.books_rest.dto;
+package javaee.books_security.dto;
 
 import lombok.*;
 import org.jetbrains.annotations.NotNull;

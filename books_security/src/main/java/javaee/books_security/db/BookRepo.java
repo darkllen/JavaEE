@@ -1,6 +1,6 @@
-package javaee.books_rest.db;
+package javaee.books_security.db;
 
-import javaee.books_rest.dto.Book;
+import javaee.books_security.dto.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

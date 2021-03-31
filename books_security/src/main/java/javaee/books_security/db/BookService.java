@@ -1,7 +1,7 @@
-package javaee.books_rest.db;
+package javaee.books_security.db;
 
-import javaee.books_rest.dto.Book;
-import javaee.books_rest.utilities.FindPattern;
+import javaee.books_security.dto.Book;
+import javaee.books_security.utilities.FindPattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

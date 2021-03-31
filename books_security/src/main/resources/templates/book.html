@@ -16,6 +16,8 @@
                     <span class="display-3 d-block" th:text="Isbn+': '+${book.isbn}"></span>
                     <span class="display-3 d-block" th:text="Author+': '+${book.author}"></span>
                     <span class="display-3 d-block" th:text="Name+': '+${book.title}"></span>
+                    <a th:href="'/add_to_favourite/'+${book.isbn}" class="btn btn-link" th:unless="${is_favourite}">add to favourite</a>
+                    <a th:href="'/remove_from_favourite/'+${book.isbn}" class="btn btn-link" th:if="${is_favourite}">remove from favourite</a>
                     <a href="/" class="btn btn-link">Back to Home</a>
                 </div>
             </div>

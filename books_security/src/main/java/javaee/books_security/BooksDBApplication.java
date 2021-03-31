@@ -1,4 +1,4 @@
-package javaee.books_rest;
+package javaee.books_security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

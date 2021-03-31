@@ -1,4 +1,4 @@
-package javaee.books_rest.utilities;
+package javaee.books_security.utilities;
 
 import lombok.Getter;
 import lombok.Setter;

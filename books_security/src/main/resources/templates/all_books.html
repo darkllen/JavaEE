@@ -12,7 +12,12 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-9">
+            <div class="col-1">
+                <a href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a>
+                <a href="/logout" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a>
+                <a href="/favourites" th:if="${#authorization.expression('isAuthenticated()')}">Favourites</a>
+            </div>
+            <div class="col-8">
                 <div class="container align-items-center" align="center">
                     <form class="align-items-center" align="center" id="find">
                         <input type="text" id="find_title" name="find_title" placeholder="Title">
@@ -31,7 +36,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-3 border-left border-dark align-items-center" align="center">
+            <div class="col-3 border-left border-dark align-items-center" align="center"  th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                 <form id="add_book">
                     <div class="form-group">
                         <label for="book_name">Book name</label>
@@ -60,11 +65,13 @@
 
     function get_book_row_template(dict){
         return `<tr>
-                    <td> ${dict['title']}</td>
+                    <td><a href="/book/${dict['isbn']}"> ${dict['title']}</a></td>
                     <td> ${dict['isbn']} </td>
                     <td> ${dict['author']} </td>
                  </tr>`
     }
+
+
 
     function show_books_by_filter(filter_dict) {
         $.ajax({
