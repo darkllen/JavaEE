@@ -42,8 +42,8 @@ insert into books (isbn, title, author) values
 
 
 insert into users (login, password) values
-('admin', 'password'),
-('user', 'password');
+('admin', 'admin'),
+('user', 'user');
 
 insert into permissions (permission) values
 ('ADMIN'),
