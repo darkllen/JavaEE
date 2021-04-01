@@ -37,7 +37,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-3 border-left border-dark align-items-center" align="center"  th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+            <div class="col-1">
+                <span th:text="${#authentication.getPrincipal().getUsername()}" th:if="${#authorization.expression('isAuthenticated()')}"></span>
+            </div>
+            <div class="col-2 border-left border-dark align-items-center" align="center"  th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                 <form id="add_book">
                     <div class="form-group">
                         <label for="book_name">Book name</label>

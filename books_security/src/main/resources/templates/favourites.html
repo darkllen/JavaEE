@@ -15,7 +15,7 @@
             <a href="/logout">Logout</a>
             <a href="/">Main</a>
         </div>
-        <div class="col-11">
+        <div class="col-10">
             <table class="text-center table table-bordered table-responsive-md">
                 <thead>
                 <th class="text-center" scope="col">name</th>
@@ -30,6 +30,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="col-1">
+            <span th:text="${#authentication.getPrincipal().getUsername()}" th:if="${#authorization.expression('isAuthenticated()')}"></span>
         </div>
     </div>
 

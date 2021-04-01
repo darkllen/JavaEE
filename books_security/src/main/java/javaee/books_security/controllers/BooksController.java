@@ -1,6 +1,7 @@
 package javaee.books_security.controllers;
 
 import javaee.books_security.db.BookService;
+import javaee.books_security.db.PermissionsRepo;
 import javaee.books_security.db.UserRepo;
 import javaee.books_security.db.UserService;
 import javaee.books_security.dto.PermissionEntity;
@@ -30,6 +31,8 @@ public class BooksController {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PermissionsRepo permissionsRepo;
 
     /**
      *
@@ -49,7 +52,11 @@ public class BooksController {
     @RequestMapping(value = {"/register_user"}, method = RequestMethod.POST)
     public String register_user(@ModelAttribute("user") User user){
         if (userRepo.findByLogin(user.getLogin()).isEmpty()) {
-            userRepo.save(user);
+            var permission = permissionsRepo.findPermissionEntityByPermission(PermissionEntity.Permission.USER);
+            if (permission.isPresent()){
+                user.setPermissions(List.of(permission.get()));
+                userRepo.save(user);
+            }
             return "redirect:/login";
         } else
         return "redirect:/registration";
