@@ -43,8 +43,8 @@
             <div class="col-2 border-left border-dark align-items-center" align="center"  th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                 <form id="add_book">
                     <div class="form-group">
-                        <label for="book_name">Book name</label>
-                        <input type="text" class="form-control" id="book_name"  name="book_name" placeholder="Enter book name">
+                        <label for="book_name">Title</label>
+                        <input type="text" class="form-control" id="book_name"  name="book_name" placeholder="Enter title">
                     </div>
                     <div class="form-group">
                         <label for="isbn">ISBN</label>
