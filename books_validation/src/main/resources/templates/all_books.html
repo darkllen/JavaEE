@@ -124,6 +124,9 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Content-Type', 'application/json')
                 },
+                error: function (xhr) {
+                    alert('ERRORS:\n' + JSON.stringify(xhr.responseJSON, null, 4))
+                },
                 success: function (response, status, xhr) {
                     if (xhr.status===201){
                         $('#find').find('[name=find_isbn]').val('')
@@ -133,7 +136,6 @@
                     } else {
                         alert("book wasn't created");
                     }
-
                 }
             })
         })
