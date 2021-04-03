@@ -22,13 +22,13 @@ import javax.validation.constraints.Pattern;
 @EqualsAndHashCode(of = {"isbn"})
 public class Book {
     @Column(name = "title")
-    @NotEmpty
+    @NotEmpty(message = "title shouldn't be empty")
     private String title;
     @Id
     @Column(name = "isbn")
     @ISBNValidator
     private String isbn;
     @Column(name = "author")
-    @NotEmpty
+    @NotEmpty(message = "author shouldn't be empty")
     private String author;
 }

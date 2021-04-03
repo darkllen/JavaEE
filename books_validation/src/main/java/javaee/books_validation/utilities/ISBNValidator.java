@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ISBNValidator {
-    String message() default "Invalid isbn";
+    String message() default "ISBN should be valid";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
