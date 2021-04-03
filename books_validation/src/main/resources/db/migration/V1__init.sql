@@ -1,6 +1,6 @@
 create table books
 (
-    isbn     varchar(20) primary key,
+    isbn     varchar(22) primary key,
     title    varchar(30) not null,
     author   varchar(30) not null
 );
@@ -37,8 +37,8 @@ create table user_to_books (
 
 
 insert into books (isbn, title, author) values
-('aaa', 'Flowers for Algernon', 'Daniel Keyes'),
-('bbb', 'One Hundred Years of Solitude', 'Gabriel García Márquez');
+('ISBN 978-1-8619-7233-0', 'Flowers for Algernon', 'Daniel Keyes'),
+('ISBN 978-1-1235-4122-9', 'One Hundred Years of Solitude', 'Gabriel García Márquez');
 
 
 insert into users (login, password) values
