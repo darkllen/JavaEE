@@ -27,10 +27,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 public class BooksController {
-    //storage for books
     @Autowired
     private BookService service;
-
     @Autowired
     private UserRepo userRepo;
     @Autowired
@@ -48,22 +46,35 @@ public class BooksController {
     }
 
 
+    /**
+     *
+     * @return registration page
+     */
     @RequestMapping(value = { "registration"}, method = RequestMethod.GET)
     public String registration(){
         return "registration";
     }
 
+    /**
+     * register user
+     * @param user to register
+     * @param model
+     * @return login page if user has been registered, otherwise registration page
+     */
     @RequestMapping(value = {"/register_user"}, method = RequestMethod.POST)
     public String register_user(@ModelAttribute("user") User user, Model model){
+        //validate user
         final Set<ConstraintViolation<User>> validationResult = validator.validate(user);
         final List<String> errors = validationResult.stream()
                 .map(errorField -> "Field [" + errorField.getPropertyPath() + "] is invalid. Validation error: " + errorField.getMessage())
                 .collect(Collectors.toList());
+        //return validation errors
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
             return "registration";
         }
 
+        //add user to db
         if (userRepo.findByLogin(user.getLogin()).isEmpty()) {
             var permission = permissionsRepo.findPermissionEntityByPermission(PermissionEntity.Permission.USER);
             if (permission.isPresent()){
@@ -76,6 +87,12 @@ public class BooksController {
     }
 
 
+    /**
+     *
+     * @param principal
+     * @param model
+     * @return page with current user favourite books
+     */
     @RequestMapping(value = { "favourites"}, method = RequestMethod.GET)
     public String get_favourites(Principal principal, Model model){
         Optional<User> user = userRepo.findByLogin(principal.getName());
@@ -88,6 +105,12 @@ public class BooksController {
     }
 
 
+    /**
+     * add book with this isbn to list of favourites for current user
+     * @param principal
+     * @param isbn
+     * @return redirect to page with current user favourite books
+     */
     @RequestMapping(value = "/add_to_favourite/{isbn}")
     public String add_to_favourite(Principal principal, @PathVariable String isbn){
         Optional<User> user = userRepo.findByLogin(principal.getName());
@@ -101,6 +124,12 @@ public class BooksController {
         return "redirect:/favourites";
     }
 
+    /**
+     * remove book with this isbn to list from favourites for current user
+     * @param principal
+     * @param isbn
+     * @return redirect to page with current user favourite books
+     */
     @RequestMapping(value = "/remove_from_favourite/{isbn}")
     public String remove_from_favourite(Principal principal, @PathVariable String isbn){
         Optional<User> user = userRepo.findByLogin(principal.getName());
@@ -125,6 +154,7 @@ public class BooksController {
         Optional<Book> book = service.findByIsbn(isbn);
         if (book.isPresent()){
             model.addAttribute("book", book.get());
+            //if there is authenticated user, add info if book is in his list of favourite
             if (principal != null){
                 Optional<User> user = userRepo.findByLogin(principal.getName());
                 if (user.isPresent()) {

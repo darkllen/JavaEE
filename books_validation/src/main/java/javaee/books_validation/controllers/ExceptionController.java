@@ -1,6 +1,5 @@
 package javaee.books_validation.controllers;
 
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +11,11 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ExceptionController {
 
+    /**
+     * handle validation errors
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> handle(final MethodArgumentNotValidException ex) {
         final List<String> errors = ex.getBindingResult().getFieldErrors().stream()

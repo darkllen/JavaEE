@@ -2,10 +2,6 @@ package javaee.books_validation.utilities;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ISBNCheck implements
         ConstraintValidator<ISBNValidator, String> {
@@ -14,6 +10,11 @@ public class ISBNCheck implements
     public void initialize(ISBNValidator isbn) {
     }
 
+    /**
+     * check isbn checksum
+     * @param digits array of ints of isbn
+     * @return true if checksum matched, otherwise false
+     */
     private boolean checkSum(int[] digits){
         int sum = 0;
         for (int i = 0; i < digits.length-1; i++) {
@@ -25,6 +26,12 @@ public class ISBNCheck implements
         return modul==digits[digits.length-1];
     }
 
+    /**
+     * check if isbn is with proper length, regex and checksum
+     * @param isbn
+     * @param cxt
+     * @return true if isbn is valid, otherwise false
+     */
     @Override
     public boolean isValid(String isbn,
             ConstraintValidatorContext cxt) {
