@@ -15,10 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validator;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +35,8 @@ public class BooksController {
     private UserRepo userRepo;
     @Autowired
     private PermissionsRepo permissionsRepo;
+
+    private final Validator validator;
 
     /**
      *
@@ -48,7 +54,16 @@ public class BooksController {
     }
 
     @RequestMapping(value = {"/register_user"}, method = RequestMethod.POST)
-    public String register_user(@ModelAttribute("user") User user){
+    public String register_user(@ModelAttribute("user") User user, Model model){
+        final Set<ConstraintViolation<User>> validationResult = validator.validate(user);
+        final List<String> errors = validationResult.stream()
+                .map(errorField -> "Field [" + errorField.getPropertyPath() + "] is invalid. Validation error: " + errorField.getMessage())
+                .collect(Collectors.toList());
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "registration";
+        }
+
         if (userRepo.findByLogin(user.getLogin()).isEmpty()) {
             var permission = permissionsRepo.findPermissionEntityByPermission(PermissionEntity.Permission.USER);
             if (permission.isPresent()){
