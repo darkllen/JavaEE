@@ -14,4 +14,7 @@ user user (have 1 book in favourite)
 admin admin (have 0 books in favourte)
 
 only User account can be registered
+registration page is available from main page (or with /registration)
+
+homework 9 - /books_validation
 ```
